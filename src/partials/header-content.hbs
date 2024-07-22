@@ -6,5 +6,22 @@
       </a>
       <a class="navbar-item site-title" target="__blank" style="color: #fff !important;" href="{{{or site.url (or siteRootUrl siteRootPath)}}}">{{site.title}}</a>
     </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        {{#if page.attributes.links}}
+        <div class="navbar-item navbar-item-right-dropdown has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Links</a>
+          <div class="navbar-dropdown navbar-dropdown-right">
+            {{#each page.attributes.links}}
+            <a class="navbar-item navbar-item-right-content" href="{{this.url}}" target="_blank">{{this.text}}</a>
+            {{/each}}
+          </div>
+        </div>
+        {{/if}}
+        {{#if page.attributes.user}}
+        <div class="navbar-item">You are {{page.attributes.user}}</div>
+        {{/if}}
+      </div>
+    </div>
   </nav>
 </header>
