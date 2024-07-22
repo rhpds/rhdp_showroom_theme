@@ -1,0 +1,10 @@
+/build/
+/node_modules/
+/public/
+yarn.lock
+.tool-versions
+
+.vscode/
+
+#MacOSX
+.DS_Store

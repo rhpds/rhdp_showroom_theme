@@ -1,0 +1,318 @@
+= Hardware and Software Requirements
+Author Name
+:idprefix:
+:idseparator: -
+:!example-caption:
+:!table-caption:
+:page-pagination:
+:USER: %USER%
+
+image:multirepo-ssg.svg[Multirepo SSG,200,float=right]
+Platonem complectitur mediocritatem ea eos.
+Ei nonumy deseruisse ius.
+Mel id omnes verear.
+Vis no velit audiam, sonet <<dependencies,praesent>> eum ne.
+*Prompta eripuit* nec ad.
+Integer diam enim, dignissim eget eros et, ultricies mattis odio.
+Vestibulum consectetur nec urna a luctus.
+Quisque pharetra tristique arcu fringilla dapibus.
+Curabitur ut massa aliquam, cursus enim et, accumsan lectus.
+
+== User Details (Query Params)
+
+Hello %USER% your password is %PASSWORD%
+
+You need to https://console.openshift.com[login,role=userfied-link]
+
+
+I like %COLOR% color
+
+[#link-testing]
+== Link Testing
+
+Here is a link:index.html?USER=%USER%#liber-recusabo[link^] containing a query string item that should open to "Liber recusabo" in a new window
+
+This link (link:index.html?USER=username#link-testing[index.html?USER=username]) that will set the `USER` querystring parameter to `username` and return to this section.
+
+This link should substitute the `USER` queryparam into the URL itself: link:index-%USER%.html?USER=%USER%#link-testing[index-%USER%.html^]
+
+[#query-string-replacement-testing]
+== Query String Replacement Testing
+
+_If the `USER` query string has been set in the URL, then you should see it replaced (or not) below according to the text_
+
+[.console-output]
+[source,bash,subs="+macros,+attributes"]
+----
+This should show the USER substitution: {USER}
+----
+
+This should also show the USER substitution: `%USER%`
+
+[.no-query-replace]
+[.console-output]
+[source,bash,noquery,subs="+macros,+attributes"]
+----
+This should not: pass:[%USER%]
+----
+
+And this also should not: [.no-query-replace]`%USER%`
+
+You should see USER replacement here: %USER% but not here: [.no-query-replace]#%USER%#
+
+=== Xrefs
+
+xref:index.adoc#link-testing[This,role="page"] is an xref that needs the query string preserved.
+
+== Cu solet
+
+Nominavi luptatum eos, an vim hinc philosophia intellegebat.
+Lorem pertinacia `expetenda` et nec, [.underline]#wisi# illud [.line-through]#sonet# qui ea.
+Eum an doctus <<liber-recusabo,maiestatis efficiantur>>.
+Eu mea inani iriure.
+
+[.console-output]
+[source,json]
+----
+{
+  "name": "module-name",
+  "version": "10.0.1",
+  "description": "An example module to illustrate the usage of package.json",
+  "author": "Author Name <author@example.com>",
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint"
+  }
+}
+----
+
+.Example paragraph syntax
+[source,asciidoc]
+----
+.Optional title
+[example]
+This is an example paragraph.
+----
+
+.Optional title
+[example]
+This is an example paragraph.
+
+=== Some Code
+
+How about some code?
+
+[.console-input]
+[source,js]
+----
+vfs
+  .src('js/vendor/*.js', { cwd: 'src', cwdbase: true, read: false })
+  .pipe(tap((file) => { // <1>
+    file.contents = browserify(file.relative, { basedir: 'src', detectGlobals: false }).bundle()
+  }))
+  .pipe(buffer()) // <2>
+  .pipe(uglify())
+  .pipe(gulp.dest('build'))
+----
+<1> The tap function is used to wiretap the data in the pipe.
+<2> Wrap each streaming file in a buffer so the files can be processed by uglify.
+Uglify can only work with buffers, not streams.
+
+Cum dicat #putant# ne.
+Est in <<inline,reque>> homero principes, meis deleniti mediocrem ad has.
+Altera atomorum his ex, has cu elitr melius propriae.
+Eos suscipit scaevola at.
+
+....
+pom.xml
+src/
+  main/
+    java/
+      HelloWorld.java
+  test/
+    java/
+      HelloWorldTest.java
+....
+
+Select menu:File[Open Project] to open the project in your IDE.
+Per ea btn:[Cancel] inimicus.
+Ferri kbd:[F11] tacimates constituam sed ex, eu mea munere vituperata kbd:[Ctrl,T] constituam.
+
+.Sidebar Title
+****
+Platonem complectitur mediocritatem ea eos.
+Ei nonumy deseruisse ius.
+Mel id omnes verear.
+
+Altera atomorum his ex, has cu elitr melius propriae.
+Eos suscipit scaevola at.
+****
+
+=== Liber recusabo
+
+No sea, at invenire voluptaria mnesarchum has.
+Ex nam suas nemore dignissim, vel apeirian democritum et.
+At ornatus splendide sed, phaedrum omittantur usu an, vix an noster voluptatibus.
+
+. potenti donec cubilia tincidunt
+. etiam pulvinar inceptos velit quisque aptent himenaeos
+. lacus volutpat semper porttitor aliquet ornare primis nulla enim
+
+Natum facilisis theophrastus an duo.
+No sea, at invenire voluptaria mnesarchum has.
+
+* ultricies sociosqu tristique integer
+* lacus volutpat semper porttitor aliquet ornare primis nulla enim
+* etiam pulvinar inceptos velit quisque aptent himenaeos
+
+Eu sed antiopam gloriatur.
+Ea mea agam graeci philosophia.
+
+* [ ] todo
+* [x] done!
+
+Vis veri graeci legimus ad.
+
+sed::
+splendide sed
+
+mea::
+agam graeci
+
+At ornatus splendide sed.
+
+.Library dependencies
+[#dependencies%autowidth]
+|===
+|Library |Version
+
+|eslint
+|^1.7.3
+
+|eslint-config-gulp
+|^2.0.0
+
+|expect
+|^1.20.2
+
+|istanbul
+|^0.4.3
+
+|istanbul-coveralls
+|^1.0.3
+
+|jscs
+|^2.3.5
+|===
+
+Cum dicat putant ne.
+Est in reque homero principes, meis deleniti mediocrem ad has.
+Altera atomorum his ex, has cu elitr melius propriae.
+Eos suscipit scaevola at.
+
+[TIP]
+This oughta do it!
+
+Cum dicat putant ne.
+Est in reque homero principes, meis deleniti mediocrem ad has.
+Altera atomorum his ex, has cu elitr melius propriae.
+Eos suscipit scaevola at.
+
+[NOTE]
+====
+You've been down _this_ road before.
+====
+
+Cum dicat putant ne.
+Est in reque homero principes, meis deleniti mediocrem ad has.
+Altera atomorum his ex, has cu elitr melius propriae.
+Eos suscipit scaevola at.
+
+[WARNING]
+====
+Watch out!
+====
+
+[CAUTION]
+====
+[#inline]#I wouldn't try that if I were you.#
+====
+
+[IMPORTANT]
+====
+Don't forget this step!
+====
+
+.Key Points to Remember
+[TIP]
+====
+If you installed the CLI and the default site generator globally, you can upgrade both of them with the same command.
+
+ $ npm i -g @antora/cli @antora/site-generator-default
+====
+
+Nominavi luptatum eos, an vim hinc philosophia intellegebat.
+Eu mea inani iriure.
+
+[discrete]
+== Voluptua singulis
+
+Cum dicat putant ne.
+Est in reque homero principes, meis deleniti mediocrem ad has.
+Ex nam suas nemore dignissim, vel apeirian democritum et.
+
+.Antora is a multi-repo documentation site generator
+image::multirepo-ssg.svg[Multirepo SSG,250]
+
+Make the switch today!
+
+[#english+中文]
+== English + 中文
+
+Altera atomorum his ex, has cu elitr melius propriae.
+Eos suscipit scaevola at.
+
+[quote, 'Famous Person. Cum dicat putant ne.', 'Cum dicat putant ne. https://example.com[Famous Person Website]']
+____
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Mauris eget leo nunc, nec tempus mi? Curabitur id nisl mi, ut vulputate urna.
+Quisque porta facilisis tortor, vitae bibendum velit fringilla vitae! Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Mauris eget leo nunc, nec tempus mi? Curabitur id nisl mi, ut vulputate urna.
+Quisque porta facilisis tortor, vitae bibendum velit fringilla vitae!
+____
+
+== Macros
+
+=== Clipboard Copy
+
+[.console-input]
+[source,bash]
+----
+echo "hello world"
+----
+
+[.console-input]
+[source,bash,role="execute"]
+----
+echo "Goodbye World!"
+----
+
+[.console-input]
+[source,bash,role="copypaste"]
+----
+echo "Copy and Paste!"
+----
+
+=== Console output
+
+[.console-output]
+[source,bash]
+----
+hello world
+----
+
+=== Tabs
+
+== Fin
+
+That's all, folks!

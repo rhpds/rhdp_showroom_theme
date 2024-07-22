@@ -1,0 +1,10 @@
+.doc .console-input pre.highlight code,
+.doc .execute pre.highlight code,
+.doc .copypaste pre.highlight code {
+  background-color: antiquewhite;
+  padding-right: 38px;
+}
+
+.doc .console-output pre.highlight code {
+  background-color: #e0ffff;
+}
