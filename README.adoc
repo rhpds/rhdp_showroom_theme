@@ -58,6 +58,9 @@ asciidoc:
 === Add a User menu entry
 
 Similar to the external links, you can have a new menu entry with the name of the user
+
+../content/antora.yml
+[source,yaml]
 ----
 asciidoc:
   attributes:
