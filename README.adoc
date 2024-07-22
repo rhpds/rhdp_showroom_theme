@@ -41,6 +41,22 @@ If the URL were to be unique, this setting would not be required.
 
 Read on to learn how to customize the default UI for your own documentation.
 
+== Adding Additional Links
+
+You can add links to external content in the convenient "Links" drop-down on the upper-right of the Showroom Summit 2024 UI.
+
+../content/antora.yml
+[source,yaml]
+----
+asciidoc:
+  attributes:
+    page-links:
+    - url: https://redhat.com
+      text: Red Hat
+    - url: https://www.redhat.com/en/summit
+      text: Summit
+----
+
 == Development Quickstart
 
 This section offers a basic tutorial to teach you how to set up the default UI project, preview it locally, and bundle it for use with Antora.
