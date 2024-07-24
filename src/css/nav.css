@@ -192,12 +192,13 @@ html.is-clipped--nav {
   color: var(--nav-muted-color);
   box-shadow: 0 -1px 0 var(--nav-panel-divider-color);
   padding: 0 0.25rem 0 0.5rem;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
   line-height: 1;
-  height: var(--drawer-height);
+  /* height: var(--drawer-height); */
+  display: none;
 }
 
 .nav-panel-explore .context .version {
