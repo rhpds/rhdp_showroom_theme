@@ -222,6 +222,8 @@ body {
 
   .navbar-item.is-hoverable:hover .navbar-dropdown {
     display: block;
+    left: auto;
+    right: 0;
   }
 
   .navbar-link::after {
