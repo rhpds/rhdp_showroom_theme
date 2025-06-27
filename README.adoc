@@ -27,7 +27,7 @@ If you want to simply use the default UI for your Antora-generated site, add the
 ----
 ui:
   bundle:
-    url: https://github.com/rhpds/rhdp_showroom_theme/raw/main/releases/download/v0.0.1/ui-bundle.zip
+    url: https://github.com/rhpds/rhdp_showroom_theme/releases/download/v0.0.1/ui-bundle.zip
     snapshot: true
 ----
 
