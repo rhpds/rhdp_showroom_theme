@@ -19,23 +19,38 @@ const vfs = require('vinyl-fs')
 module.exports = (src, dest, preview) => () => {
   const opts = { base: src, cwd: src }
   const sourcemaps = preview || process.env.SOURCEMAPS === 'true'
-  const postcssPlugins = [
-    postcssImport,
-    (css, { messages, opts: { file } }) =>
-      Promise.all(
-        messages
+  const mtimeUpdater = {
+    postcssPlugin: 'mtime-updater',
+    Once (css, { result }) {
+      const { file } = result.opts
+      return Promise.all(
+        result.messages
           .reduce((accum, { file: depPath, type }) => (type === 'dependency' ? accum.concat(depPath) : accum), [])
           .map((importedPath) => fs.stat(importedPath).then(({ mtime }) => mtime))
       ).then((mtimes) => {
+        if (mtimes.length === 0) return
         const newestMtime = mtimes.reduce((max, curr) => (!max || curr > max ? curr : max))
         if (newestMtime > file.stat.mtime) file.stat.mtimeMs = +(file.stat.mtime = newestMtime)
-      }),
+      })
+    },
+  }
+
+  const pseudoElementFixer = {
+    postcssPlugin: 'postcss-pseudo-element-fixer',
+    Once (css) {
+      css.walkRules(/(?:^|[^:]):(?:before|after)/, (rule) => {
+        rule.selector = rule.selectors.map((it) => it.replace(/(^|[^:]):(before|after)$/, '$1::$2')).join(',')
+      })
+    },
+  }
+
+  const postcssPlugins = [
+    postcssImport,
+    mtimeUpdater,
     postcssVar({ preserve: preview }),
-    preview ? postcssCalc : () => {},
+    ...(preview ? [postcssCalc] : []),
     autoprefixer,
-    preview
-      ? () => {}
-      : (css, result) => cssnano({ preset: 'default' })(css, result).then(() => postcssPseudoElementFixer(css, result)),
+    ...(preview ? [] : [cssnano({ preset: 'default' }), pseudoElementFixer]),
   ]
 
   return merge(
@@ -97,10 +112,4 @@ module.exports = (src, dest, preview) => () => {
     vfs.src('layouts/*.hbs', opts),
     vfs.src('partials/*.hbs', opts)
   ).pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
-}
-
-function postcssPseudoElementFixer (css, result) {
-  css.walkRules(/(?:^|[^:]):(?:before|after)/, (rule) => {
-    rule.selector = rule.selectors.map((it) => it.replace(/(^|[^:]):(before|after)$/, '$1::$2')).join(',')
-  })
 }

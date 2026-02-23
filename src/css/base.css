@@ -30,6 +30,20 @@ body {
   margin: 0;
 }
 
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 999;
+  padding: 0.5rem 1rem;
+  background: var(--color-white);
+  color: var(--link-font-color);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
 a {
   text-decoration: none;
 }

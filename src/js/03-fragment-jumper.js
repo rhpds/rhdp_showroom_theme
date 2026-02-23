@@ -21,7 +21,8 @@
       window.location.hash = '#' + this.id
       e.preventDefault()
     }
-    window.scrollTo(0, computePosition(this, 0) - toolbar.getBoundingClientRect().bottom)
+    var offset = toolbar ? toolbar.getBoundingClientRect().bottom : 0
+    window.scrollTo(0, computePosition(this, 0) - offset)
   }
 
   window.addEventListener('load', function jumpOnLoad (e) {

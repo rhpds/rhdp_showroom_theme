@@ -9,6 +9,8 @@
       "exports": "always-multiline"
     }],
     "max-len": [1, 120, 2],
+    "no-var": "off",
+    "object-shorthand": "off",
     "spaced-comment": "off",
     "padded-blocks": "off"
   }
