@@ -9,12 +9,9 @@ const fs = require('fs-extra')
 const imagemin = require('gulp-imagemin')
 const { obj: map } = require('through2')
 const merge = require('merge-stream')
-const ospath = require('path')
-const path = ospath.posix
 const postcss = require('gulp-postcss')
 const postcssCalc = require('postcss-calc')
 const postcssImport = require('postcss-import')
-const postcssUrl = require('postcss-url')
 const postcssVar = require('postcss-custom-properties')
 const uglify = require('gulp-uglify')
 const vfs = require('vinyl-fs')
@@ -33,19 +30,6 @@ module.exports = (src, dest, preview) => () => {
         const newestMtime = mtimes.reduce((max, curr) => (!max || curr > max ? curr : max))
         if (newestMtime > file.stat.mtime) file.stat.mtimeMs = +(file.stat.mtime = newestMtime)
       }),
-    postcssUrl([
-      {
-        filter: '**/~typeface-*/files/*',
-        url: (asset) => {
-          const relpath = asset.pathname.substr(1)
-          const abspath = require.resolve(relpath)
-          const basename = ospath.basename(abspath)
-          const destpath = ospath.join(dest, 'font', basename)
-          if (!fs.pathExistsSync(destpath)) fs.copySync(abspath, destpath)
-          return path.join('..', 'font', basename)
-        },
-      },
-    ]),
     postcssVar({ preserve: preview }),
     preview ? postcssCalc : () => {},
     autoprefixer,
@@ -97,7 +81,6 @@ module.exports = (src, dest, preview) => () => {
     vfs
       .src('css/site.css', { ...opts, sourcemaps })
       .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } }))),
-    vfs.src('font/*.{ttf,woff*(2)}', opts),
     vfs
       .src('img/**/*.{gif,ico,jpg,png,svg}', opts)
       .pipe(
