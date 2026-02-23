@@ -1,11 +1,11 @@
 {
-  "name": "redhat-scholars-ui",
-  "description": "An archetype project that produces a UI for creating documentation sites with Antora",
-  "homepage": "https://github.com/redhat-scholars/redhat-scholars",
+  "name": "rhdp-showroom-theme",
+  "description": "Antora UI bundle for the Red Hat Demo Platform Showroom",
+  "homepage": "https://github.com/rhpds/rhdp_showroom_theme",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/redhat-scholars/redhat-scholars.git"
+    "url": "https://github.com/rhpds/rhdp_showroom_theme.git"
   },
   "engines": {
     "node": ">= 16.0.0"
