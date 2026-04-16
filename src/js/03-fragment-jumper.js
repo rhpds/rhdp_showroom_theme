@@ -2,6 +2,7 @@
   'use strict'
 
   var article = document.querySelector('article.doc')
+  if (!article) return
   var toolbar = document.querySelector('.toolbar')
 
   function decodeFragment (hash) {

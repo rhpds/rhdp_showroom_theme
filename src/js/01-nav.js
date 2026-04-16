@@ -5,9 +5,9 @@
 
   var navContainer = document.querySelector('.nav-container')
   var navToggle = document.querySelector('.nav-toggle')
+  if (!navContainer && (!navToggle || (navToggle.hidden = true))) return
 
   navToggle.addEventListener('click', showNav)
-  // NOTE don't let click events propagate outside of nav container
   navContainer.addEventListener('click', concealEvent)
 
   var menuPanel = navContainer.querySelector('[data-panel=menu]')
