@@ -28,7 +28,8 @@
   padding: 0 1ch;
 }
 
-.doc .source-toolbox .copy-button {
+.doc .source-toolbox .copy-button,
+.doc .source-toolbox .paste-button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,21 +45,47 @@
   cursor: pointer;
 }
 
-.doc .source-toolbox .copy-icon {
+.doc .source-toolbox .copy-button:focus-visible,
+.doc .source-toolbox .paste-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.doc .source-toolbox .paste-button {
+  position: relative;
+  margin-left: 0.5ch;
+}
+
+.doc .source-toolbox .paste-label {
+  position: absolute;
+  bottom: -0.15em;
+  right: -0.35em;
+  font-size: 0.65em;
+  font-weight: 700;
+  line-height: 1;
+  color: inherit;
+}
+
+.doc .source-toolbox .copy-icon,
+.doc .source-toolbox .paste-icon {
   flex: none;
   width: inherit;
   height: inherit;
 }
 
-.doc .source-toolbox img.copy-icon {
+.doc .source-toolbox img.copy-icon,
+.doc .source-toolbox img.paste-icon {
   filter: invert(50.2%);
 }
 
-.doc .source-toolbox svg.copy-icon {
+.doc .source-toolbox svg.copy-icon,
+.doc .source-toolbox svg.paste-icon {
   fill: currentColor;
 }
 
-.doc .source-toolbox .copy-toast {
+.doc .source-toolbox .copy-toast,
+.doc .source-toolbox .paste-toast {
   flex: none;
   position: relative;
   display: inline-flex;
@@ -73,7 +100,8 @@
   transition: opacity 0.5s ease 0.5s;
 }
 
-.doc .source-toolbox .copy-toast::after {
+.doc .source-toolbox .copy-toast::after,
+.doc .source-toolbox .paste-toast::after {
   content: "";
   position: absolute;
   top: 0;
@@ -85,7 +113,8 @@
   transform-origin: left;
 }
 
-.doc .source-toolbox .copy-button.clicked .copy-toast {
+.doc .source-toolbox .copy-button.clicked .copy-toast,
+.doc .source-toolbox .paste-button.clicked .paste-toast {
   opacity: 1;
   transition: none;
 }
