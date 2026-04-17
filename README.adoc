@@ -13,11 +13,12 @@ Add the following to your Antora playbook (`site.yml`):
 ----
 ui:
   bundle:
-    url: https://github.com/rhpds/rhdp_showroom_theme/releases/latest/download/ui-bundle.zip
+    url: https://github.com/rhpds/rhdp_showroom_theme/releases/download/latest/ui-bundle.zip
     snapshot: true
 ----
 
 TIP: The `snapshot` flag tells Antora to re-fetch the bundle when `--fetch` is passed on the command line.
+The `latest` release is updated automatically whenever the `latest` branch is pushed.
 
 == Navbar Branding
 
@@ -64,7 +65,7 @@ This is useful when a build system controls branding across many workshops:
 antora --key navbar_logo=summit \
        --key navbar_logo_url=https://www.redhat.com/summit \
        --key navbar_logo_alt='Red Hat Summit' \
-       --ui-bundle-url=https://github.com/rhpds/rhdp_showroom_theme/releases/latest/download/ui-bundle.zip \
+       --ui-bundle-url=https://github.com/rhpds/rhdp_showroom_theme/releases/download/latest/ui-bundle.zip \
        site.yml
 ----
 
@@ -96,6 +97,41 @@ Show the current user's name in the navbar:
 asciidoc:
   attributes:
     user: 'User X'
+----
+
+== Releases
+
+A GitHub Actions workflow builds and publishes `ui-bundle.zip` automatically.
+Two release channels are supported:
+
+=== Rolling `latest` release
+
+The `latest` release is updated on every push to the `latest` branch.
+Most workshops should point here -- they always get the newest theme.
+
+To ship an update:
+
+. Merge your changes to `main`.
+. Fast-forward the `latest` branch:
++
+ $ git checkout latest && git merge --ff-only main && git push
+
+CI replaces the `latest` release asset automatically.
+
+=== Tagged releases
+
+Push a semver tag to create a pinned release for testing or rollback:
+
+ $ git tag v2.1.0 && git push origin v2.1.0
+
+CI creates a `v2.1.0` release with the built bundle.
+Use it to test before promoting to `latest`:
+
+[source,yaml]
+----
+ui:
+  bundle:
+    url: https://github.com/rhpds/rhdp_showroom_theme/releases/download/v2.1.0/ui-bundle.zip
 ----
 
 == Development
