@@ -34,8 +34,8 @@ body {
 }
 
 .navbar-logo-img {
-  width: 278px;
-  height: auto;
+  height: calc(var(--navbar-height) - 1.5rem);
+  width: auto;
 }
 
 .navbar-brand .separator {
