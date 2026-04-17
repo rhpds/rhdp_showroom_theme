@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, latest]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint CSS and JavaScript
+        run: npx gulp lint
+
+      - name: Build UI bundle
+        run: npx gulp bundle
+
+      - name: Verify bundle was produced
+        run: test -f build/ui-bundle.zip

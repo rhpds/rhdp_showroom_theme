@@ -1,0 +1,45 @@
+name: Publish UI Bundle
+
+on:
+  push:
+    branches: [latest]
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx gulp bundle
+
+      - name: Publish tagged release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" build/ui-bundle.zip \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes
+
+      - name: Update rolling "latest" release
+        if: github.ref == 'refs/heads/latest'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view latest > /dev/null 2>&1; then
+            gh release create latest \
+              --title "Latest UI Bundle" \
+              --notes "Rolling release of the RHDP Showroom theme. Updated automatically on push to the \`latest\` branch."
+          fi
+          gh release upload latest build/ui-bundle.zip --clobber
