@@ -1,49 +1,80 @@
-= RHDP default showroom theme
-// Settings:
-:experimental:
-:hide-uri-scheme:
-// Project URLs:
+= RHDP Showroom Theme
 :url-project: https://github.com/rhpds/rhdp_showroom_theme
-:url-ci-pipelines: {url-project}/pipelines
-:img-ci-status: {url-project}/badges/master/pipeline.svg
-// External URLs:
-:url-antora: https://antora.org
 :url-antora-docs: https://docs.antora.org
-:url-git: https://git-scm.com
-:url-git-dl: {url-git}/downloads
-:url-gulp: http://gulpjs.com
-:url-opendevise: https://opendevise.com
 :url-nodejs: https://nodejs.org
-:url-nvm: https://github.com/creationix/nvm
-:url-nvm-install: {url-nvm}#installation
-:url-source-maps: https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map
 
+Custom https://antora.org[Antora] UI bundle for the Red Hat Demo Platform Showroom.
 
-== Use the Default UI
+== Use the Theme
 
-If you want to simply use the default UI for your Antora-generated site, add the following UI configuration to your playbook:
+Add the following to your Antora playbook (`site.yml`):
 
 [source,yaml]
 ----
 ui:
   bundle:
-    url: https://github.com/rhpds/rhdp_showroom_theme/releases/download/v0.0.1/ui-bundle.zip
+    url: https://github.com/rhpds/rhdp_showroom_theme/releases/latest/download/ui-bundle.zip
     snapshot: true
 ----
 
-NOTE: The `snapshot` flag tells Antora to fetch the UI when the `--fetch` command-line flag is present.
-This setting is required because updates to the UI bundle are pushed to the same URL.
-If the URL were to be unique, this setting would not be required.
+TIP: The `snapshot` flag tells Antora to re-fetch the bundle when `--fetch` is passed on the command line.
 
-Read on to learn how to customize the default UI for your own documentation.
+== Navbar Branding
 
-== How to use the theme
+The navbar logo, link, and alt text are configurable via `site.keys`.
+When no keys are set the default *Red Hat Demo Platform* branding is used.
 
-=== Add Additional Links
+[cols="1,2,1"]
+|===
+| Key | Description | Default
 
-You can add links to external content in the convenient "Links" drop-down on the upper-right of the UI.
+| `navbar_logo`
+| Filename stem of the logo SVG in `img/` (e.g. `summit`, `rh1`)
+| `demo-platform`
 
-../content/antora.yml
+| `navbar_logo_url`
+| URL the logo links to
+| `\https://demo.redhat.com`
+
+| `navbar_logo_alt`
+| Accessible alt text for the logo image
+| `Red Hat Demo Platform`
+|===
+
+Available logos shipped with the theme: `demo-platform`, `summit`.
+
+=== Set branding in site.yml
+
+[source,yaml]
+----
+site:
+  keys:
+    navbar_logo: summit
+    navbar_logo_url: https://www.redhat.com/summit
+    navbar_logo_alt: Red Hat Summit
+----
+
+=== Override at build time via CLI
+
+The `--key` option has the highest precedence and overrides anything in `site.yml`.
+This is useful when a build system controls branding across many workshops:
+
+[source,bash]
+----
+antora --key navbar_logo=summit \
+       --key navbar_logo_url=https://www.redhat.com/summit \
+       --key navbar_logo_alt='Red Hat Summit' \
+       --ui-bundle-url=https://github.com/rhpds/rhdp_showroom_theme/releases/latest/download/ui-bundle.zip \
+       site.yml
+----
+
+== Other Customizations
+
+=== External links dropdown
+
+Add links to the navbar dropdown via Antora page attributes:
+
+.content/antora.yml
 [source,yaml]
 ----
 asciidoc:
@@ -51,18 +82,47 @@ asciidoc:
     page-links:
     - url: https://redhat.com
       text: Red Hat
-    - url: https://www.redhat.com/en/summit
+    - url: https://www.redhat.com/summit
       text: Summit
 ----
 
-=== Add a User menu entry
+=== User display
 
-Similar to the external links, you can have a new menu entry with the name of the user
+Show the current user's name in the navbar:
 
-../content/antora.yml
+.content/antora.yml
 [source,yaml]
 ----
 asciidoc:
   attributes:
     user: 'User X'
 ----
+
+== Development
+
+=== Prerequisites
+
+* {url-nodejs}[Node.js] >= 20
+
+=== Install dependencies
+
+ $ npm ci
+
+=== Preview the theme
+
+ $ npx gulp preview
+
+Opens a live-reloading preview server on `http://localhost:5252`.
+
+=== Build the UI bundle
+
+ $ npx gulp bundle
+
+Produces `build/ui-bundle.zip`, which you can reference locally:
+
+ $ antora --ui-bundle-url=build/ui-bundle.zip site.yml
+
+== License
+
+MPL-2.0.
+See the {url-project}[project repository] for details.
