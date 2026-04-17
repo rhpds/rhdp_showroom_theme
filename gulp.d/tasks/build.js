@@ -74,8 +74,10 @@ module.exports = (src, dest, preview) => () => {
               })
               .bundle((bundleError, bundleBuffer) =>
                 Promise.all(mtimePromises).then((mtimes) => {
-                  const newestMtime = mtimes.reduce((max, curr) => (!max || curr > max ? curr : max))
-                  if (newestMtime > file.stat.mtime) file.stat.mtimeMs = +(file.stat.mtime = newestMtime)
+                  if (mtimes.length) {
+                    const newestMtime = mtimes.reduce((max, curr) => (!max || curr > max ? curr : max))
+                    if (newestMtime > file.stat.mtime) file.stat.mtimeMs = +(file.stat.mtime = newestMtime)
+                  }
                   if (bundleBuffer !== undefined) file.contents = bundleBuffer
                   file.path = file.path.slice(0, file.path.length - 10) + '.js'
                   next(bundleError, file)
