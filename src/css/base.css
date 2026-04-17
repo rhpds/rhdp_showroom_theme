@@ -30,6 +30,20 @@ body {
   margin: 0;
 }
 
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 999;
+  padding: 0.5rem 1rem;
+  background: var(--color-white);
+  color: var(--link-font-color);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
 a {
   text-decoration: none;
 }
@@ -39,7 +53,12 @@ a:hover {
 }
 
 a:active {
-  background-color: none;
+  background-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--link-font-color);
+  outline-offset: 2px;
 }
 
 code,
@@ -53,6 +72,22 @@ dt,
 strong,
 th {
   font-weight: var(--body-font-weight-bold);
+}
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
 }
 
 em em { /* stylelint-disable-line */

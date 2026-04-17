@@ -1,53 +1,50 @@
 :root {
-  /* colors */
+  /* colors — PatternFly 6 gray palette */
   --color-white: #fff;
-  --color-smoke-10: #fefefe;
-  --color-smoke-30: #fafafa;
-  --color-smoke-50: #f5f5f5;
-  --color-smoke-70: #f0f0f0;
-  --color-smoke-90: #e1e1e1;
-  --color-gray-10: #c1c1c1;
-  --color-gray-30: #8e8e8e;
-  --color-gray-50: #808080;
-  --color-gray-70: #5d5d5d;
-  --color-jet-20: #4a4a4a;
-  --color-jet-30: #424242;
-  --color-jet-50: #333;
-  --color-jet-70: #222;
-  --color-jet-80: #191919;
+  --color-smoke-30: #f2f2f2;
+  --color-smoke-70: #e0e0e0;
+  --color-smoke-90: #c7c7c7;
+  --color-gray-10: #a3a3a3;
+  --color-gray-30: #707070;
+  --color-gray-40: #8c8c8c;
+  --color-gray-70: #4d4d4d;
+  --color-jet-20: #383838;
+  --color-jet-30: #292929;
+  --color-jet-50: #1f1f1f;
+  --color-jet-70: #151515;
   --color-black: #000;
-  /* fonts */
-  --rem-base: 18; /* used to compute rem value from desired pixel value (e.g., calc(18 / var(--rem-base) * 1rem) = 18px) */
-  --body-font-size: 1.1em; /* 17px */
-  --body-font-size--desktop: 1.125em; /* 18px */
-  --body-font-size--print: 0.9375em; /* 15px */
-  --body-line-height: 1.15;
+  /* fonts — aligned with PatternFly 6 typography */
+  --rem-base: 18;
+  --body-font-size: 1.1em;
+  --body-font-size--desktop: 1.125em;
+  --body-font-size--print: 0.9375em;
+  --body-line-height: 1.5;
   --body-font-color: var(--color-jet-70);
-  --body-font-family: "RedHatText", sans-serif;
-  --body-font-weight-bold: 500;
-  --monospace-font-family: "JetBrainsMono", monospace;
-  --monospace-font-weight-bold: 500;
+  --body-font-family: "Red Hat Text", "RedHatText", "Noto Sans Arabic", "Noto Sans Hebrew", "Noto Sans JP", "Noto Sans KR", "Noto Sans Malayalam", "Noto Sans SC", "Noto Sans TC", "Noto Sans Thai", helvetica, arial, sans-serif;
+  --body-font-weight-bold: 700;
+  --monospace-font-family: "Red Hat Mono", "RedHatMono", "Courier New", courier, monospace;
+  --monospace-font-weight-bold: 700;
   /* base */
   --body-background: var(--color-white);
-  --panel-background: #ededed;
+  --panel-background: var(--color-smoke-30);
   --panel-border-color: var(--color-smoke-90);
   --scrollbar-thumb-color: var(--color-gray-10);
   /* navbar */
-  --navbar-background: var(--color-jet-80);
-  --navbar-font-family: "RedHatDisplay", sans-serif;
+  --navbar-background: var(--color-jet-70);
+  --navbar-font-family: "Red Hat Display", "RedHatDisplay", "Noto Sans Arabic", "Noto Sans Hebrew", "Noto Sans JP", "Noto Sans KR", "Noto Sans Malayalam", "Noto Sans SC", "Noto Sans TC", "Noto Sans Thai", helvetica, arial, sans-serif;
   --navbar-font-color: var(--color-white);
-  --navbar_hover-background: var(--color-black);
+  --navbar_hover-background: var(--color-jet-50);
   --navbar-button-background: var(--color-white);
   --navbar-button-border-color: var(--panel-border-color);
-  --navbar-button-font-color: #fff;
+  --navbar-button-font-color: var(--color-white);
   --navbar-menu-border-color: var(--panel-border-color);
-  --navbar-menu-background: #036;
-  --navbar-menu-font-color: #fff;
-  --navbar-menu_hover-background: #036;
+  --navbar-menu-background: var(--color-jet-30);
+  --navbar-menu-font-color: var(--color-white);
+  --navbar-menu_hover-background: var(--color-jet-20);
   /* nav */
   --nav-background: var(--panel-background);
-  --nav-border-color: var(--color-gray-10);
-  --nav-line-height: 1.35;
+  --nav-border-color: var(--color-smoke-90);
+  --nav-line-height: 1.5;
   --nav-heading-font-color: var(--color-jet-30);
   --nav-muted-color: var(--color-gray-70);
   --nav-panel-divider-color: var(--color-smoke-90);
@@ -63,32 +60,32 @@
   --toc-font-color: var(--nav-muted-color);
   --toc-heading-font-color: var(--doc-font-color);
   --toc-border-color: var(--panel-border-color);
-  --toc-line-height: 1.2;
-  /* admonitions */
-  --caution-color: #a0439c;
+  --toc-line-height: 1.3;
+  /* admonitions — aligned with PatternFly 6 status colors */
+  --caution-color: #5e40be;
   --caution-on-color: var(--color-white);
-  --important-color: #d32f2f;
+  --important-color: #e00;
   --important-on-color: var(--color-white);
-  --note-color: #217ee7;
+  --note-color: #06c;
   --note-on-color: var(--color-white);
-  --tip-color: #41af46;
+  --tip-color: #63993d;
   --tip-on-color: var(--color-white);
-  --warning-color: #e18114;
-  --warning-on-color: var(--color-white);
+  --warning-color: #dca614;
+  --warning-on-color: var(--color-jet-70);
   /* doc */
-  --doc-font-color: var(--color-jet-50);
+  --doc-font-color: var(--color-jet-70);
   --doc-font-size: inherit;
   --doc-font-size--desktop: calc(17 / var(--rem-base) * 1rem);
   --doc-line-height: 1.6;
   --doc-margin: 0 auto;
   --doc-margin--desktop: 0 2rem;
-  --heading-font-family: "RedHatDisplay", sans-serif;
-  --heading-font-color: var(--color-jet-80);
-  --heading-font-weight: normal;
+  --heading-font-family: "Red Hat Display", "RedHatDisplay", "Noto Sans Arabic", "Noto Sans Hebrew", "Noto Sans JP", "Noto Sans KR", "Noto Sans Malayalam", "Noto Sans SC", "Noto Sans TC", "Noto Sans Thai", helvetica, arial, sans-serif;
+  --heading-font-color: var(--color-jet-70);
+  --heading-font-weight: 500;
   --alt-heading-font-weight: var(--body-font-weight-bold);
   --section-divider-color: var(--panel-border-color);
-  --link-font-color: #e00;
-  --link_hover-font-color: rgb(238, 0, 0);
+  --link-font-color: #06c;
+  --link_hover-font-color: #004d99;
   --link_unresolved-font-color: var(--important-color);
   --abstract-background: var(--color-smoke-70);
   --abstract-font-color: var(--color-jet-20);
@@ -114,9 +111,9 @@
   --table-border-color: var(--panel-border-color);
   /* footer */
   --footer-line-height: var(--doc-line-height);
-  --footer-background: var(--color-smoke-90);
+  --footer-background: var(--color-smoke-70);
   --footer-font-color: var(--color-gray-70);
-  --footer-link-font-color: var(--color-jet-80);
+  --footer-link-font-color: var(--color-jet-70);
   /* dimensions and positioning */
   --navbar-height: calc(63 / var(--rem-base) * 1rem);
   --toolbar-height: calc(45 / var(--rem-base) * 1rem);
@@ -139,6 +136,4 @@
   --z-index-toolbar: 2;
   --z-index-page-version-menu: 3;
   --z-index-navbar: 4;
-  /* tabs */
-  --color-brand-black: var(--color-black);
 }

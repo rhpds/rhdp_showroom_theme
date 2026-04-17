@@ -9,12 +9,9 @@ const fs = require('fs-extra')
 const imagemin = require('gulp-imagemin')
 const { obj: map } = require('through2')
 const merge = require('merge-stream')
-const ospath = require('path')
-const path = ospath.posix
 const postcss = require('gulp-postcss')
 const postcssCalc = require('postcss-calc')
 const postcssImport = require('postcss-import')
-const postcssUrl = require('postcss-url')
 const postcssVar = require('postcss-custom-properties')
 const uglify = require('gulp-uglify')
 const vfs = require('vinyl-fs')
@@ -22,36 +19,38 @@ const vfs = require('vinyl-fs')
 module.exports = (src, dest, preview) => () => {
   const opts = { base: src, cwd: src }
   const sourcemaps = preview || process.env.SOURCEMAPS === 'true'
-  const postcssPlugins = [
-    postcssImport,
-    (css, { messages, opts: { file } }) =>
-      Promise.all(
-        messages
+  const mtimeUpdater = {
+    postcssPlugin: 'mtime-updater',
+    Once (css, { result }) {
+      const { file } = result.opts
+      return Promise.all(
+        result.messages
           .reduce((accum, { file: depPath, type }) => (type === 'dependency' ? accum.concat(depPath) : accum), [])
           .map((importedPath) => fs.stat(importedPath).then(({ mtime }) => mtime))
       ).then((mtimes) => {
+        if (mtimes.length === 0) return
         const newestMtime = mtimes.reduce((max, curr) => (!max || curr > max ? curr : max))
         if (newestMtime > file.stat.mtime) file.stat.mtimeMs = +(file.stat.mtime = newestMtime)
-      }),
-    postcssUrl([
-      {
-        filter: '**/~typeface-*/files/*',
-        url: (asset) => {
-          const relpath = asset.pathname.substr(1)
-          const abspath = require.resolve(relpath)
-          const basename = ospath.basename(abspath)
-          const destpath = ospath.join(dest, 'font', basename)
-          if (!fs.pathExistsSync(destpath)) fs.copySync(abspath, destpath)
-          return path.join('..', 'font', basename)
-        },
-      },
-    ]),
+      })
+    },
+  }
+
+  const pseudoElementFixer = {
+    postcssPlugin: 'postcss-pseudo-element-fixer',
+    Once (css) {
+      css.walkRules(/(?:^|[^:]):(?:before|after)/, (rule) => {
+        rule.selector = rule.selectors.map((it) => it.replace(/(^|[^:]):(before|after)$/, '$1::$2')).join(',')
+      })
+    },
+  }
+
+  const postcssPlugins = [
+    postcssImport,
+    mtimeUpdater,
     postcssVar({ preserve: preview }),
-    preview ? postcssCalc : () => {},
+    ...(preview ? [postcssCalc] : []),
     autoprefixer,
-    preview
-      ? () => {}
-      : (css, result) => cssnano({ preset: 'default' })(css, result).then(() => postcssPseudoElementFixer(css, result)),
+    ...(preview ? [] : [cssnano({ preset: 'default' }), pseudoElementFixer]),
   ]
 
   return merge(
@@ -75,8 +74,10 @@ module.exports = (src, dest, preview) => () => {
               })
               .bundle((bundleError, bundleBuffer) =>
                 Promise.all(mtimePromises).then((mtimes) => {
-                  const newestMtime = mtimes.reduce((max, curr) => (!max || curr > max ? curr : max))
-                  if (newestMtime > file.stat.mtime) file.stat.mtimeMs = +(file.stat.mtime = newestMtime)
+                  if (mtimes.length) {
+                    const newestMtime = mtimes.reduce((max, curr) => (!max || curr > max ? curr : max))
+                    if (newestMtime > file.stat.mtime) file.stat.mtimeMs = +(file.stat.mtime = newestMtime)
+                  }
                   if (bundleBuffer !== undefined) file.contents = bundleBuffer
                   file.path = file.path.slice(0, file.path.length - 10) + '.js'
                   next(bundleError, file)
@@ -97,7 +98,6 @@ module.exports = (src, dest, preview) => () => {
     vfs
       .src('css/site.css', { ...opts, sourcemaps })
       .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } }))),
-    vfs.src('font/*.{ttf,woff*(2)}', opts),
     vfs
       .src('img/**/*.{gif,ico,jpg,png,svg}', opts)
       .pipe(
@@ -114,10 +114,4 @@ module.exports = (src, dest, preview) => () => {
     vfs.src('layouts/*.hbs', opts),
     vfs.src('partials/*.hbs', opts)
   ).pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
-}
-
-function postcssPseudoElementFixer (css, result) {
-  css.walkRules(/(?:^|[^:]):(?:before|after)/, (rule) => {
-    rule.selector = rule.selectors.map((it) => it.replace(/(^|[^:]):(before|after)$/, '$1::$2')).join(',')
-  })
 }

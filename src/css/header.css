@@ -29,6 +29,15 @@ body {
   font-size: calc(22 / var(--rem-base) * 1rem);
 }
 
+.navbar-logo {
+  margin-left: 1rem;
+}
+
+.navbar-logo-img {
+  height: calc(var(--navbar-height) - 1.5rem);
+  width: auto;
+}
+
 .navbar-brand .separator {
   padding: 0 0.375rem;
 }
@@ -56,21 +65,20 @@ body {
 }
 
 .navbar-brand {
-  align-items: stretch;
+  align-items: center;
   display: flex;
   flex-shrink: 0;
   height: var(--navbar-height);
 }
 
 .site-title {
+  color: var(--navbar-font-color);
+  font-weight: bold;
   text-overflow: ellipsis;
   word-break: break-all;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
-  flex: 1 !important;
-  display: block !important;
-  margin: auto 0;
 }
 
 .navbar-burger {
@@ -294,4 +302,51 @@ body {
   color: var(--navbar-button-font-color);
   padding: 0 0.75em;
   white-space: nowrap;
+}
+
+.navbar-item.search {
+  padding: 0 0.5rem;
+}
+
+#search-field {
+  display: flex;
+  align-items: center;
+}
+
+#search-input {
+  font-family: var(--body-font-family);
+  font-size: calc(14 / var(--rem-base) * 1rem);
+  color: var(--color-white);
+  background: var(--color-jet-50);
+  border: 1px solid var(--color-gray-70);
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  width: 12rem;
+  height: 2rem;
+  outline: none;
+  transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out, width 0.2s ease-in-out;
+}
+
+#search-input::placeholder {
+  color: var(--color-gray-10);
+}
+
+#search-input:focus {
+  border-color: #06c;
+  background-color: var(--color-jet-30);
+  width: 16rem;
+}
+
+@media screen and (max-width: 1023px) {
+  .navbar-item.search {
+    padding: 0.5rem 1rem;
+  }
+
+  #search-input {
+    width: 100%;
+  }
+
+  #search-input:focus {
+    width: 100%;
+  }
 }

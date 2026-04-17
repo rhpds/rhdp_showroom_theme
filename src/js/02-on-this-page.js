@@ -4,14 +4,25 @@
   var sidebar = document.querySelector('aside.toc.sidebar')
   if (!sidebar) return
   if (document.querySelector('body.-toc')) return sidebar.parentNode.removeChild(sidebar)
-  var levels = parseInt(sidebar.dataset.levels || 2)
+  var levels = parseInt(sidebar.dataset.levels || 2, 10)
   if (levels < 0) return
 
-  var article = document.querySelector('article.doc')
-  var headings
-  var headingSelector = []
-  for (var l = 0; l <= levels; l++) headingSelector.push(l ? '.sect' + l + '>h' + (l + 1) + '[id]' : 'h1[id].sect0')
-  if (!(headings = find(headingSelector.join(','), article)).length) return sidebar.parentNode.removeChild(sidebar)
+  var articleSelector = 'article.doc'
+  var article = document.querySelector(articleSelector)
+  if (!article) return
+  var headingsSelector = []
+  for (var level = 0; level <= levels; level++) {
+    var headingSelector = [articleSelector]
+    if (level) {
+      for (var l = 1; l <= level; l++) headingSelector.push((l === 2 ? '.sectionbody>' : '') + '.sect' + l)
+      headingSelector.push('h' + (level + 1) + '[id]' + (level > 1 ? ':not(.discrete)' : ''))
+    } else {
+      headingSelector.push('h1[id].sect0')
+    }
+    headingsSelector.push(headingSelector.join('>'))
+  }
+  var headings = find(headingsSelector.join(','), article.parentNode)
+  if (!headings.length) return sidebar.parentNode.removeChild(sidebar)
 
   var lastActiveFragment
   var links = {}
@@ -20,7 +31,7 @@
     link.textContent = heading.textContent
     links[(link.href = '#' + heading.id)] = link
     var listItem = document.createElement('li')
-    listItem.dataset.level = parseInt(heading.nodeName.slice(1)) - 1
+    listItem.dataset.level = parseInt(heading.nodeName.slice(1), 10) - 1
     listItem.appendChild(link)
     accum.appendChild(listItem)
     return accum
@@ -78,6 +89,7 @@
     headings.some(function (heading) {
       if (heading.getBoundingClientRect().top + getNumericStyleVal(heading, 'paddingTop') - buffer > ceil) return true
       activeFragment = '#' + heading.id
+      return false
     })
     if (activeFragment) {
       if (activeFragment === lastActiveFragment) return

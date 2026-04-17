@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.134.0/containers/javascript-node
 {
-	"name": "Course UI",
+	"name": "Showroom Theme",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"target": "${env:DEVCONTAINER_TARGET_PREFIX}devcontainer",
@@ -27,7 +27,7 @@
 	],
 	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000],
+	"forwardPorts": [5252],
 
 	// Specifies a command that should be run after the container has been created.
 	"postCreateCommand": "rsync -a .devcontainer/workspace-setup/ ${containerWorkspaceFolder}/.vscode/ --ignore-existing",
