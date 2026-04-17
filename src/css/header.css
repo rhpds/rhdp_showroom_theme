@@ -30,7 +30,7 @@ body {
 }
 
 .navbar-logo {
-  margin-left: 5%;
+  margin-left: 1rem;
 }
 
 .navbar-logo-img {
@@ -65,7 +65,7 @@ body {
 }
 
 .navbar-brand {
-  align-items: stretch;
+  align-items: center;
   display: flex;
   flex-shrink: 0;
   height: var(--navbar-height);
@@ -73,14 +73,12 @@ body {
 
 .site-title {
   color: var(--navbar-font-color);
+  font-weight: bold;
   text-overflow: ellipsis;
   word-break: break-all;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
-  flex: 1;
-  display: block;
-  margin: auto 0;
 }
 
 .navbar-burger {
