@@ -22,27 +22,29 @@ The `latest` release is updated automatically whenever the `latest` branch is pu
 
 == Navbar Branding
 
-The navbar logo, link, and alt text are configurable via `site.keys`.
-When no keys are set the default *Red Hat Demo Platform* branding is used.
+Set `navbar_logo` in `site.keys` to choose a logo.
+That single key controls everything:
 
-[cols="1,2,1"]
+* *Image* -- loaded from `src/img/logo-<stem>.svg` in the theme.
+* *Link* -- always points to the site root so the user stays inside the iframe.
+* *Alt text* -- looked up automatically from a map in `src/helpers/navbar-logo-alt.js`.
+
+When no key is set the default *Red Hat Demo Platform* branding is used.
+
+=== Available logos
+
+[cols="1,3,2"]
 |===
-| Key | Description | Default
+| Stem | SVG file | Alt text
 
-| `navbar_logo`
-| Filename stem of the logo SVG in `img/` (e.g. `summit`, `rh1`)
-| `demo-platform`
+| `demo-platform` (default)
+| `src/img/logo-demo-platform.svg`
+| Red Hat Demo Platform
 
-| `navbar_logo_url`
-| URL the logo links to
-| `\https://demo.redhat.com`
-
-| `navbar_logo_alt`
-| Accessible alt text for the logo image
-| `Red Hat Demo Platform`
+| `summit`
+| `src/img/logo-summit.svg`
+| Red Hat Summit
 |===
-
-Available logos shipped with the theme: `demo-platform`, `summit`.
 
 === Set branding in site.yml
 
@@ -51,23 +53,45 @@ Available logos shipped with the theme: `demo-platform`, `summit`.
 site:
   keys:
     navbar_logo: summit
-    navbar_logo_url: https://www.redhat.com/summit
-    navbar_logo_alt: Red Hat Summit
 ----
 
 === Override at build time via CLI
 
-The `--key` option has the highest precedence and overrides anything in `site.yml`.
-This is useful when a build system controls branding across many workshops:
-
 [source,bash]
 ----
 antora --key navbar_logo=summit \
-       --key navbar_logo_url=https://www.redhat.com/summit \
-       --key navbar_logo_alt='Red Hat Summit' \
        --ui-bundle-url=https://github.com/rhpds/rhdp_showroom_theme/releases/download/latest/ui-bundle.zip \
        site.yml
 ----
+
+=== How it works
+
+The Handlebars template `src/partials/header-content.hbs` renders the navbar logo like this:
+
+[source,html]
+----
+<a href="{{siteRootPath}}">
+  <img src="{{uiRootPath}}/img/logo-{{or site.keys.navbarLogo 'demo-platform'}}.svg"
+       alt="{{navbar-logo-alt (or site.keys.navbarLogo 'demo-platform')}}">
+</a>
+----
+
+`navbar-logo-alt` is a custom Handlebars helper (`src/helpers/navbar-logo-alt.js`) that maps the logo stem to its alt text.
+
+=== Adding a new logo
+
+. Add the SVG as `src/img/logo-<stem>.svg` (e.g. `src/img/logo-connect.svg`).
+. Open `src/helpers/navbar-logo-alt.js` and add the stem and alt text to the map:
++
+[source,js]
+----
+const ALT_TEXT = {
+  'demo-platform': 'Red Hat Demo Platform',
+  summit: 'Red Hat Summit',
+  connect: 'Red Hat Connect',   // <-- new entry
+}
+----
+. Rebuild the theme (`npx gulp bundle`) and release.
 
 == Other Customizations
 
