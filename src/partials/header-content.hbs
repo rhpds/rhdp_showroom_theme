@@ -1,8 +1,8 @@
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item navbar-logo" href="{{or site.keys.navbarLogoUrl 'https://demo.redhat.com'}}" target="_blank">
-        <img src="{{uiRootPath}}/img/logo-{{or site.keys.navbarLogo 'demo-platform'}}.svg" alt="{{or site.keys.navbarLogoAlt 'Red Hat Demo Platform'}}" class="navbar-logo-img">
+      <a class="navbar-item navbar-logo" href="{{siteRootPath}}">
+        <img src="{{uiRootPath}}/img/logo-{{or site.keys.navbarLogo 'demo-platform'}}.svg" alt="{{navbar-logo-alt (or site.keys.navbarLogo 'demo-platform')}}" class="navbar-logo-img">
       </a>
       <a class="navbar-item site-title" target="_blank" href="{{{or site.url (or siteRootUrl siteRootPath)}}}">{{site.title}}</a>
     </div>
