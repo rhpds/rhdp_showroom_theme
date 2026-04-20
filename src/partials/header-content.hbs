@@ -1,9 +1,9 @@
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item navbar-logo" href="{{siteRootPath}}">
+      <span class="navbar-item navbar-logo">
         <img src="{{uiRootPath}}/img/logo-{{or site.keys.navbarLogo 'demo-platform'}}.svg" alt="{{navbar-logo-alt (or site.keys.navbarLogo 'demo-platform')}}" class="navbar-logo-img">
-      </a>
+      </span>
       <a class="navbar-item site-title" target="_blank" href="{{{or site.url (or siteRootUrl siteRootPath)}}}">{{site.title}}</a>
     </div>
     <div id="topbar-nav" class="navbar-menu">
