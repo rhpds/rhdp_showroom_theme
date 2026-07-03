@@ -112,6 +112,24 @@
     })
   }
 
+  function showErrorFeedback (button) {
+    if (button.classList.contains('clicked')) return
+    var toast = button.querySelector('.paste-toast')
+    if (toast) {
+      toast.textContent = 'Not executed!'
+      button.classList.add('clicked', 'error')
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          button.classList.remove('clicked')
+          button._errorTimer = setTimeout(function () {
+            button.classList.remove('error')
+            toast.textContent = 'Executed!'
+          }, 1100)
+        })
+      })
+    }
+  }
+
   function writeToClipboard (code) {
     if (this.classList.contains('clicked')) return
     const text = code.innerText.replace(TRAILING_SPACE_RX, '')
@@ -146,6 +164,13 @@
 
   function pasteToTerminal (code, target) {
     if (this.classList.contains('clicked')) return
+    if (this._errorTimer) {
+      clearTimeout(this._errorTimer)
+      this._errorTimer = null
+      this.classList.remove('error')
+      var toast = this.querySelector('.paste-toast')
+      if (toast) toast.textContent = 'Executed!'
+    }
     const text = code.innerText.replace(TRAILING_SPACE_RX, '')
     try {
       const parentDoc = window.parent.document
@@ -181,6 +206,7 @@
       showClickFeedback(this)
     } catch (err) {
       console.error('Failed to paste to terminal:', err)
+      showErrorFeedback(this)
     }
   }
 })()
