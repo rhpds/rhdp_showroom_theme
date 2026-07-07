@@ -1,16 +1,20 @@
 .doc .source-toolbox {
   display: flex;
+  align-items: center;
   visibility: hidden;
   position: absolute;
   top: 0.25rem;
   right: 0.5rem;
   color: var(--pre-annotation-font-color);
   font-family: var(--body-font-family);
-  font-size: calc(13 / var(--rem-base) * 1rem);
+  font-size: calc(16 / var(--rem-base) * 1rem);
   line-height: 1;
   user-select: none;
   white-space: nowrap;
   z-index: 1;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25em;
 }
 
 .doc .listingblock:hover .source-toolbox {
@@ -22,7 +26,7 @@
   letter-spacing: 0.075em;
 }
 
-.doc .source-toolbox > :not(:last-child)::after {
+.doc .source-toolbox .source-lang::after {
   content: "|";
   letter-spacing: 0;
   padding: 0 1ch;
@@ -117,4 +121,12 @@
 .doc .source-toolbox .paste-button.clicked .paste-toast {
   opacity: 1;
   transition: none;
+}
+
+.doc .source-toolbox .paste-button.error .paste-toast {
+  background-color: #c9190b;
+}
+
+.doc .source-toolbox .paste-button.error .paste-toast::after {
+  border-left-color: #c9190b;
 }
